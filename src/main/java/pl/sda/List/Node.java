@@ -5,7 +5,8 @@ public class Node {
     private Node next;
     private Node prev;
 
-    public Node(long value) {
+
+    public Node (long value) {
         this.value = value;
     }
 
@@ -32,4 +33,5 @@ public class Node {
     public void setPrev(Node prev) {
         this.prev = prev;
     }
+
 }
