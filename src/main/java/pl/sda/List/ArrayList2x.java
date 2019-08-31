@@ -2,14 +2,14 @@ package pl.sda.List;
 
 import java.util.Arrays;
 
-public class ArrayList2x implements IList {
+public class ArrayList2x <T> implements IList<T> {
 
-    private long[] holder;
+    private T[] holder;
     private int size = 0;
     private final int arraySizeMultipler = 2;
 
     public ArrayList2x() {
-        holder = new long[arraySizeMultipler];
+        holder = (T[]) new Object[arraySizeMultipler];
     }
 
     // to do
@@ -27,7 +27,7 @@ public class ArrayList2x implements IList {
     }
 
     @Override
-    public long get(int index) {
+    public T get(int index) {
 
         checkBounds(index);
         return holder[index];
@@ -35,7 +35,7 @@ public class ArrayList2x implements IList {
 
     //to do
     @Override
-    public void set(int index, long value) {
+    public void set(int index, T value) {
         checkBounds(index);
         holder[index] = value;
     }
@@ -50,7 +50,7 @@ public class ArrayList2x implements IList {
     }
 
     @Override
-    public int firstIndexWith(long value) {
+    public int firstIndexWith(T value) {
         for (int i = 0; i < size; i++) {
             if (value == holder[i]) {
                 return i;
@@ -61,7 +61,7 @@ public class ArrayList2x implements IList {
 
     //to do - increment size of table
     @Override            //   0             2           size= 1
-    public void add(int index, long value) {
+    public void add(int index, T value) {
         checkInsertBounds(index);
         if (holder.length==size){
             incrementHolderLenght();
@@ -75,7 +75,7 @@ public class ArrayList2x implements IList {
 
     private void incrementHolderLenght() {
         int newHolderSize = holder.length*arraySizeMultipler;
-        long[] newHolder = new long[newHolderSize];
+        T[] newHolder = (T[]) new Object [newHolderSize];
         for (int i=0; i<size; i++ ){
             newHolder[i] = holder[i];
         }
@@ -84,7 +84,7 @@ public class ArrayList2x implements IList {
 
     //to do - increment size of physical table
     @Override
-    public void add(long value) {
+    public void add(T value) {
 
         if (holder.length==size){
             incrementHolderLenght();
@@ -95,7 +95,7 @@ public class ArrayList2x implements IList {
 
     @Override
     //TODO - This should return copy of the filled part of the array
-    public long[] getHolderView() {
+    public T[] getHolderView() {
         return Arrays.copyOfRange(holder, 0, size);
 
     }

@@ -1,8 +1,8 @@
 package pl.sda.List;
 
-public class LinkedList implements IList {
-    private Node first;
-    private Node last;
+public class LinkedList<T> implements IList<T> {
+    private Node <T> first;
+    private Node <T> last;
     private int size = 0;
 
     //to do
@@ -17,10 +17,10 @@ public class LinkedList implements IList {
     }
 
     @Override
-    public long get(int index) {
+    public T get(int index) {
         checkBounds(index);
 
-        Node tmp = first;
+        Node <T> tmp = first;
         for (int i = 0; i < index; i++) {
             tmp = tmp.getNext();
         }
@@ -29,10 +29,10 @@ public class LinkedList implements IList {
 
     //to do
     @Override
-    public void set(int index, long value) {
+    public void set(int index, T value) {
         checkBounds(index);
 
-        Node tmp = first;
+        Node<T> tmp = first;
         Node next;
 
         for (int i = 0; i < index; i++) {
@@ -47,36 +47,33 @@ public class LinkedList implements IList {
     public void remove(int index) {
         checkBounds(index);
 
-        Node tmp=first;
-        Node current;
-        Node tmpNext;
-        Node tmpPrev;
+        if(index == 0) {
+            first = first.getNext();
+            size--;
+            return;
+        }
 
+        if(index==size-1) {
+            last = last.getPrev();
+            size--;
+            return;
+        }
+
+        Node<T> tmp = first;
         for (int i = 0; i < index; i++) {
             tmp = tmp.getNext();
         }
-        tmpNext = tmp.getNext();
-        tmpPrev = tmp.getPrev();
-
-        if (index==size)
-            tmpPrev.setNext(null);
-        else if(size==1){
-            tmpPrev.setNext(null);
-            tmpNext.setPrev(null);
-        } else if (index==0){
-            tmpNext.setPrev(null);
-            tmpPrev.setNext(tmpNext);
-        }else {
-            tmpNext.setPrev(tmpPrev);
-            tmpPrev.setNext(tmpNext);
-        }
+        Node <T> prev = tmp.getPrev();
+        Node <T> next = tmp.getNext();
+        prev.setNext(next);
+        next.setPrev(prev);
         size--;
     }
 
     @Override
-    public int firstIndexWith(long value) {
+    public int firstIndexWith(T value) {
         int index = 0;
-        Node tmp = first;
+        Node <T> tmp = first;
         while (tmp != null) {
             if (tmp.getValue() == value) {
                 return index;
@@ -88,11 +85,11 @@ public class LinkedList implements IList {
     }
 
     @Override
-    public void add(long value) {
+    public void add(T value) {
         if (size == 0) {
-            last = first = new Node(value);
+            last = first = new Node <T>(value);
         } else {
-            Node next = new Node(value);
+            Node <T> next = new Node<T>(value);
             last.setNext(next);
             next.setPrev(last);
             last = next;
@@ -101,14 +98,14 @@ public class LinkedList implements IList {
     }
 
     @Override
-    public void add(int index, long value) {
+    public void add(int index, T value) {
         checkInsertBounds(index);
         if (size == 0 || index == size) {
             add(value);
             return;
         }
 
-        Node tmpPrev = first;
+        Node<T> tmpPrev = first;
         for (int i = 0; i < index; i++) {
             tmpPrev = tmpPrev.getNext();
         }
@@ -116,10 +113,10 @@ public class LinkedList implements IList {
         insertBetween(tmpPrev, value);
     }
 
-    private void insertBetween(Node replaced, long value) {
-        Node newNode = new Node(value);
+    private void insertBetween(Node replaced, T value) {
+        Node <T> newNode = new Node<T> (value);
 
-        Node beforeReplaced = replaced.getPrev();
+        Node <T> beforeReplaced = replaced.getPrev();
         //No node before replaced this means that replaced was first node!
         //Now 'first' must point to the newNode we inserted
         if (beforeReplaced == null) {
@@ -135,10 +132,10 @@ public class LinkedList implements IList {
     }
 
     @Override
-    public long[] getHolderView() {
-        long[] longs = new long[size];
+    public T [] getHolderView() {
+        T[] longs = (T[]) new Object[size];
         int index = 0;
-        Node tmp = first;
+        Node<T> tmp = first;
         while (tmp != null) {
             longs[index++] = tmp.getValue();
             tmp = tmp.getNext();
