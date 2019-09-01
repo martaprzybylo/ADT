@@ -2,7 +2,7 @@ package pl.sda.List;
 
 public class SelectionSort {
 
-    public IList sort(IList<Integer> listToSort){
+    public IList selSort(IList<Integer> listToSort){
         int firstUsortedIndex = 0;
 
         do {
