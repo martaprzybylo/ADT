@@ -12,5 +12,15 @@ public class MainList {
 
         for (Object val:tab)
             System.out.print(val + " ");
+
+        System.out.println();
+
+        int[] table = {16,4,9,8,12,2,5,0,6,3};
+        SelectionSort ss = new SelectionSort();
+        int []sorted = ss.sort(table);
+        for (int sor:sorted){
+            System.out.print(sor + " ");
+        }
+
     }
 }
